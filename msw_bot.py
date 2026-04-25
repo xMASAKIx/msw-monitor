@@ -35,7 +35,8 @@ PLAYER_MAP = {
     "20372100003863084": "阿卡利作者",
     "20372100000180209": "PLAT",
     "20372100003462165": "奧米加獸作者",
-    "20372100000208070": "珊璞作者"
+    "20372100000208070": "珊璞作者",
+    "20372100002340154": "金武金"
 }
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
