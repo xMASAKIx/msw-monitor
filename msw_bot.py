@@ -4,16 +4,15 @@ import threading
 from flask import Flask
 import os
 
-# --- 網頁偽裝區域 (防止 Render 部署失敗) ---
 app = Flask('')
 
 @app.route('/')
 def home():
-    return "MSW Bot is Alive!"
+    return "MSW Bot with ProfileCode is Alive!"
 
 def run_web():
-    # Render 預設使用 10000 埠口
-    app.run(host='0.0.0.0', port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
 
 # --- 設定區域 ---
 PLAYER_MAP = {
@@ -40,51 +39,61 @@ PLAYER_MAP = {
 }
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
-CHECK_INTERVAL = 10  # 建議設 15-20 秒，避免太頻繁被 Nexon 擋 IP
+CHECK_INTERVAL = 15 
 
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
 
-# 紀錄狀態
 last_known_status = {pid: None for pid in PLAYER_MAP.keys()}
 
 def check_players():
     global last_known_status
-    print(f"[{time.strftime('%H:%M:%S')}] 掃描 {len(PLAYER_MAP)} 位玩家中...")
+    print(f"[{time.strftime('%H:%M:%S')}] 掃描中...")
 
     for pid, name in PLAYER_MAP.items():
         try:
             url = API_URL_TEMPLATE.format(pid)
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-            }
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
             
             response = requests.get(url, headers=headers, timeout=10)
-            data = response.json()
+            res_json = response.json()
+            user_data = res_json.get('data', {})
             
-            is_online = (data['data']['isOnline'] == 1)
+            is_online = (user_data.get('isOnline') == 1)
+            p_code = user_data.get('profileCode', '未知') # 抓取 5 碼 ID
+            img_url = user_data.get('profileImageUrl', '') # 抓取頭像
             
             if last_known_status[pid] is None:
                 last_known_status[pid] = is_online
-                print(f"初始紀錄: {name} ({'上線' if is_online else '離線'})")
                 continue
 
             if is_online != last_known_status[pid]:
                 last_known_status[pid] = is_online
                 status_text = "🟢 上線了！" if is_online else "🔴 下線了。"
+                color = 3066993 if is_online else 15158332 # 綠色或紅色
                 
-                payload = {"content": f"【維京穿黑絲通知】**{name}** {status_text}"}
+                # 建立 Discord Embed 通知
+                payload = {
+                    "embeds": [{
+                        "title": f"楓之谷世界 狀態通知",
+                        "description": f"玩家：**{name}**\n代碼：`{p_code}`\n狀態：**{status_text}**",
+                        "thumbnail": {"url": img_url},
+                        "color": color,
+                        "footer": {"text": f"PPSN: {pid}"},
+                        "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+                    }]
+                }
+                
                 requests.post(DISCORD_WEBHOOK_URL, json=payload)
-                print(f"📣 通知發送: {name} {status_text}")
+                print(f"📣 通知發送: {name} ({p_code}) {status_text}")
 
         except Exception as e:
             print(f"檢查 {name} 出錯: {e}")
 
-if __name__ == "__main__":
-    # 1. 在背景啟動 Flask 網頁伺服器，讓 Render 偵測到服務
-    threading.Thread(target=run_web, daemon=True).start()
-    
-    # 2. 執行監控主迴圈
-    print("🚀 MSW 極速監控模式 (免費 Web 方案) 啟動")
+def main_loop():
     while True:
         check_players()
         time.sleep(CHECK_INTERVAL)
+
+if __name__ == "__main__":
+    threading.Thread(target=main_loop, daemon=True).start()
+    run_web()
