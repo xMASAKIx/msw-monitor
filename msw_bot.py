@@ -37,7 +37,7 @@ PLAYER_MAP = {
     "20372100000208070": "珊璞作者",
     "20372100002340154": "金武金",
     "20372100005770592": "PAKA",
-    "20372100005385883": "白弧"
+    "20372100005385883": "白狐"
 }
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
