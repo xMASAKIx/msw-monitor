@@ -38,7 +38,9 @@ PLAYER_MAP = {
     "20372100002340154": "金武金",
     "20372100005770592": "PAKA",
     "20372100005385883": "白狐",
-    "20372100005694709": "小別時"
+    "20372100005694709": "小別時",
+    "20372100008443475": "paka1",
+    "20372100005802883": "paka2"
 }
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
