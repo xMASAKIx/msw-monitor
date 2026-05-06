@@ -8,44 +8,48 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "MSW Bot with ProfileCode is Alive!"
+    return "MSW Bot with Custom Images is Alive!"
 
 def run_web():
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
-# --- 設定區域 ---
+# --- 設定區域：在這裡加入圖片網址 ---
+# 格式: "PPSN": {"name": "名字", "image": "圖片網址"}
 PLAYER_MAP = {
-    "20372100000223997": "別時",
-    "20372100005338018": "小波",
-    "20372100003479787": "卡提作者",
-    "20372100003567962": "妃姬作者",
-    "20372100008583110": "ES(夜夜發貨號)",
-    "20372100005894481": "平行",
-    "20372100003096391": "幽幽子",
-    "20372100001110251": "mimiming天使",
-    "20372100002790823": "mimiming天使",
-    "20372100004235799": "死靈作者",
-    "20372100005999546": "TJ01",
-    "20372100005764633": "TJ02",
-    "20372100005118171": "兔仔",
-    "20372000486671177": "韓國愛芮",
-    "20372100005311821": "照作者",
-    "20372100003863084": "阿卡利作者",
-    "20372100000180209": "PLAT",
-    "20372100003462165": "奧米加獸作者",
-    "20372100000208070": "珊璞作者",
-    "20372100002340154": "金武金",
-    "20372100005770592": "PAKA",
-    "20372100005385883": "白狐",
-    "20372100005694709": "小別時",
-    "20372100008443475": "paka1",
-    "20372100005802883": "paka2",
-    "20372100008359961": "沖田作者",
-    "20372100002553986": "殺手兔作者",
-    "20372100006407090": "北極熊初音作者",
-    "20372100009098159": "哥倫比雅作者"
+    "20372100000223997": {"name": "別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/17/1745254512144.png"},
+    "20372100005338018": {"name": "小波", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/322/1775991434332.png"},
+    "20372100003479787": {"name": "卡提作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/321/1774855337857.png"},
+    "20372100003567962": {"name": "妃姬作者","image": "https://mod-file.dn.nexoncdn.co.kr/shop/213/1776626647882.png"},
+    "20372100008583110": {"name": "ES(夜夜發貨號)", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/149/1753505473494.png"},
+    "20372100005894481":{"name":  "平行", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1762773253552.png"},
+    "20372100003096391": {"name": "幽幽子", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/586/1762449873627.png"},
+    "20372100001110251": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1747565380029.png"},
+    "20372100002790823": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/757/1732900933505.png"},
+    "20372100004235799": {"name": "死靈作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/907/1748105199984.png"},
+    "20372100005999546": {"name": "TJ01", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/279/1776452793102.png"},
+    "20372100005764633": {"name": "TJ02", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/163/1776452831843.png"},
+    "20372100005118171": {"name": "兔仔", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/956/1776228554718.png"},
+    "20372000486671177": {"name": "韓國愛芮", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/58/1775909266323.png"},
+    "20372100005311821": {"name": "照作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/558/1775307529921.png"},
+    "20372100003863084": {"name": "阿卡利作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/368/1757691781562.png"},
+    "20372100000180209": {"name": "PLAT", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/417/1776402215444.png"},
+    "20372100003462165": {"name": "奧米加獸作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/988/1775817850083.png"},
+    "20372100000208070": {"name": "珊璞作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/166/1777216997978.png"},
+    "20372100002340154": {"name": "金武金", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/746/1777216923670.png"},
+    "20372100005770592": {"name": "PAKA", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/271/1775588447819.png"},
+    "20372100005385883": {"name": "白狐", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/25/1753058871388.png"},
+    "20372100005694709": {"name": "小別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/269/1748733872754.png"},
+    "20372100008443475": {"name": "paka1", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/679/1774714211779.png"},
+    "20372100005802883": {"name": "paka2", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/389/1777320374327.png"},
+    "20372100008359961": {"name": "沖田作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/18/1777724572613.png"},
+    "20372100002553986": {"name": "殺手兔作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/610/1777201020468.png"},
+    "20372100006407090": {"name": "北極熊初音作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/7/1778050053104.png"},
+    "20372100009098159": {"name": "哥倫比雅作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/123/1777628265094.png"}
 }
+
+# 預設圖片 (如果該玩家沒設定圖片時顯示)
+DEFAULT_IMAGE = "https://example.com/default.png"
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
 CHECK_INTERVAL = 10 
@@ -58,18 +62,19 @@ def check_players():
     global last_known_status
     print(f"[{time.strftime('%H:%M:%S')}] 掃描中...")
 
-    for pid, name in PLAYER_MAP.items():
+    for pid, info in PLAYER_MAP.items():
         try:
+            name = info["name"]
+            custom_image = info.get("image", DEFAULT_IMAGE) # 抓取自訂圖片
+            
             url = API_URL_TEMPLATE.format(pid)
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+            headers = {'User-Agent': 'Mozilla/5.0'}
             
             response = requests.get(url, headers=headers, timeout=10)
-            res_json = response.json()
-            user_data = res_json.get('data', {})
+            user_data = response.json().get('data', {})
             
             is_online = (user_data.get('isOnline') == 1)
-            p_code = user_data.get('profileCode', '未知') # 抓取 5 碼 ID
-            img_url = user_data.get('profileImageUrl', '') # 抓取頭像
+            p_code = user_data.get('profileCode', '未知')
             
             if last_known_status[pid] is None:
                 last_known_status[pid] = is_online
@@ -78,14 +83,14 @@ def check_players():
             if is_online != last_known_status[pid]:
                 last_known_status[pid] = is_online
                 status_text = "🟢 上線了！" if is_online else "🔴 下線了。"
-                color = 3066993 if is_online else 15158332 # 綠色或紅色
+                color = 3066993 if is_online else 15158332 
                 
-                # 建立 Discord Embed 通知
                 payload = {
                     "embeds": [{
-                        "title": f"楓之谷世界 狀態通知",
+                        "title": "楓之谷世界 狀態通知",
                         "description": f"玩家：**{name}**\n代碼：`{p_code}`\n狀態：**{status_text}**",
-                        "thumbnail": {"url": img_url},
+                        # 將 thumbnail (小圖) 或 image (大圖) 換成自訂圖片
+                        "thumbnail": {"url": custom_image}, 
                         "color": color,
                         "footer": {"text": f"PPSN: {pid}"},
                         "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
@@ -93,10 +98,10 @@ def check_players():
                 }
                 
                 requests.post(DISCORD_WEBHOOK_URL, json=payload)
-                print(f"📣 通知發送: {name} ({p_code}) {status_text}")
+                print(f"📣 通知發送: {name} 自訂圖片已載入")
 
         except Exception as e:
-            print(f"檢查 {name} 出錯: {e}")
+            print(f"檢查 {pid} 出錯: {e}")
 
 def main_loop():
     while True:
