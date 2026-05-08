@@ -22,7 +22,7 @@ PLAYER_MAP = {
     "20372100003479787": {"name": "卡提作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/321/1774855337857.png"},
     "20372100003567962": {"name": "妃姬作者","image": "https://mod-file.dn.nexoncdn.co.kr/shop/213/1776626647882.png"},
     "20372100008583110": {"name": "ES(夜夜發貨號)", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/149/1753505473494.png"},
-    "20372100005894481":{"name":  "平行", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1762773253552.png"},
+    "20372100005894481": {"name":  "平行", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1762773253552.png"},
     "20372100003096391": {"name": "幽幽子", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/586/1762449873627.png"},
     "20372100001110251": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1747565380029.png"},
     "20372100002790823": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/757/1732900933505.png"},
