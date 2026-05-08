@@ -54,7 +54,8 @@ PLAYER_MAP = {
     "20372100005833987": {"name": "菲特", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/440/1757093677010.png"},
     "20372100005779084": {"name": "簡&卡媽", "image": "https://mod-file.dn.nexoncdn.co.kr/profile/951/1770739129110.png"},
     "20372100007840052": {"name": "惡魔狐", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/982/1757623973159.png"},
-    "20372100007791322": {"name": "奶鱈", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/773/1758903318897.png"}
+    "20372100007791322": {"name": "奶鱈", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/773/1758903318897.png"},
+    "20372100006053110": {"name": "智傑黑絲人", "image": "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1696781720-51rrQkTpkdL.jpg"}
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
@@ -62,7 +63,7 @@ DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQD
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
 # 特別名單：包含 PAKA, paka1, paka2 的 PID
-SPECIAL_PLAYERS = ["20372100008443475", "20372100005802883"]
+SPECIAL_PLAYERS = ["20372100008443475", "20372100005802883","20372100006053110"]
 
 CHECK_INTERVAL = 10 
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
