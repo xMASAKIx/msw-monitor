@@ -102,7 +102,7 @@ def check_players():
                 status_msg = "🟢 上線了！" if is_online else "🔴 下線了。"
             elif is_online and world_name != prev["world_name"]:
                 should_notify = True
-                status_msg = "🎮 正在玩..."
+                status_msg = "🔄 切換世界"
 
             if should_notify:
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
