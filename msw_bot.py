@@ -14,15 +14,14 @@ def run_web():
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
-# --- 設定區域：在這裡加入圖片網址 ---
-# 格式: "PPSN": {"name": "名字", "image": "圖片網址"}
+# --- 設定區域 ---
 PLAYER_MAP = {
     "20372100000223997": {"name": "別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/17/1745254512144.png"},
     "20372100005338018": {"name": "小波", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/322/1775991434332.png"},
     "20372100003479787": {"name": "卡提作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/321/1774855337857.png"},
     "20372100003567962": {"name": "妃姬作者","image": "https://mod-file.dn.nexoncdn.co.kr/shop/213/1776626647882.png"},
     "20372100008583110": {"name": "ES(夜夜發貨號)", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/149/1753505473494.png"},
-    "20372100005894481": {"name":  "平行", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1762773253552.png"},
+    "20372100005894481": {"name": "平行", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1762773253552.png"},
     "20372100003096391": {"name": "幽幽子", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/586/1762449873627.png"},
     "20372100001110251": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1747565380029.png"},
     "20372100002790823": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/757/1732900933505.png"},
@@ -58,14 +57,17 @@ PLAYER_MAP = {
     "20372100007791322": {"name": "奶鱈", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/773/1758903318897.png"}
 }
 
-# 預設圖片 (如果該玩家沒設定圖片時顯示)
 DEFAULT_IMAGE = "https://example.com/default.png"
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
+DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
+
+# 特別名單：包含 PAKA, paka1, paka2 的 PID
+SPECIAL_PLAYERS = ["20372100008443475", "20372100005802883", "20372100005770592"]
+
 CHECK_INTERVAL = 10 
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
 
-# 紀錄上一次的狀態，這次改用 dict 存儲多個欄位
-# 結構: { pid: {"is_online": bool, "world_name": str} }
+# 紀錄狀態
 last_known_data = {pid: {"is_online": None, "world_name": None} for pid in PLAYER_MAP.keys()}
 
 def check_players():
@@ -85,34 +87,30 @@ def check_players():
             
             # 獲取 API 回傳的當前狀態
             is_online = (data_root.get('isOnline') == 1)
-            world_name = data_root.get('worldName') # 如果沒在玩會是 None 或 空值
+            world_name = data_root.get('worldName') 
             p_code = data_root.get('profileCode', '未知')
             
-            # 取得上次紀錄
             prev = last_known_data[pid]
 
-            # 初始運行：存入數據但不發通知
             if prev["is_online"] is None:
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
                 continue
 
-            # 判斷邏輯：狀態或世界名稱改變時發送通知
             should_notify = False
             status_msg = ""
             
+            # 偵測上下線
             if is_online != prev["is_online"]:
                 should_notify = True
                 status_msg = "🟢 上線了！" if is_online else "🔴 下線了。"
+            # 偵測切換遊戲世界
             elif is_online and world_name != prev["world_name"]:
-                # 如果人一直在線上，但世界名字變了 (例如換分流或換遊戲)
                 should_notify = True
                 status_msg = "🔄 切換世界"
 
             if should_notify:
-                # 更新最後紀錄
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
                 
-                # 準備 Discord 訊息內容
                 current_world = world_name if world_name else "大廳或選單中"
                 color = 3066993 if is_online else 15158332 
                 
@@ -131,8 +129,21 @@ def check_players():
                     }]
                 }
                 
+                # --- 發送邏輯 ---
+                # 1. 發送至通用頻道 (所有人)
                 requests.post(DISCORD_WEBHOOK_URL, json=payload)
-                print(f"📣 通知發送: {name} 目前在 {current_world}")
+
+                # 2. 如果在特別名單，額外發送至 Paka 專屬頻道
+                if pid in SPECIAL_PLAYERS:
+                    # 只發送到 Paka 專屬頻道 (DC2)
+                    requests.post(DISCORD_WEBHOOK_URL_PAKA, json=payload)
+                    print(f"🚀 Paka 專屬通知已發送至 DC2 (DC1已跳過)")
+                
+                # 如果玩家不在名單中
+                else:
+                    # 發送到通用頻道 (DC1)
+                    requests.post(DISCORD_WEBHOOK_URL, json=payload)
+                    print(f"📣 一般通知已發送至 DC1: {name}")
 
         except Exception as e:
             print(f"檢查 {pid} 出錯: {e}")
