@@ -46,7 +46,7 @@ PLAYER_MAP = {
     "20372100002553986": {"name": "殺手兔作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/610/1777201020468.png"},
     "20372100006407090": {"name": "北極熊初音作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/7/1778050053104.png"},
     "20372100009098159": {"name": "哥倫比雅作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/123/1777628265094.png"},
-    "20372100005046143": {"name": "TJ", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/279/1776452793102.png"}
+    "20372100005046143": {"name": "TJ", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/861/1751824550127.png"}
 }
 
 # 預設圖片 (如果該玩家沒設定圖片時顯示)
