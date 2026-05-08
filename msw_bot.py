@@ -61,7 +61,7 @@ PLAYER_MAP = {
 
 # 預設圖片 (如果該玩家沒設定圖片時顯示)
 DEFAULT_IMAGE = "https://example.com/default.png"
-DISCORD_WEBHOOK_URL = "你的Webhook網址"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
 CHECK_INTERVAL = 10 
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
 
