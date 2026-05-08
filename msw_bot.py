@@ -136,15 +136,16 @@ def check_players():
 
                 # 2. 如果在特別名單，額外發送至 Paka 專屬頻道
                 if pid in SPECIAL_PLAYERS:
-                    # 只發送到 Paka 專屬頻道 (DC2)
+                    # 如果是 Paka，只發送到專屬頻道 (dc2)
                     requests.post(DISCORD_WEBHOOK_URL_PAKA, json=payload)
-                    print(f"🚀 Paka 專屬通知已發送至 DC2 (DC1已跳過)")
-                
-                # 如果玩家不在名單中
+                    print(f"🚀 [dc2] 專屬通知: {name} (dc1不發送)")
                 else:
-                    # 發送到通用頻道 (DC1)
+                    # 如果不是 Paka，發送到原本的通用頻道 (dc1)
                     requests.post(DISCORD_WEBHOOK_URL, json=payload)
-                    print(f"📣 一般通知已發送至 DC1: {name}")
+                    print(f"📣 [dc1] 一般通知: {name}")
+
+                # 更新迴圈內的紀錄 (這行一定要在發送後執行)
+                print(f"✅ 處理完成: {name}")
 
         except Exception as e:
             print(f"檢查 {pid} 出錯: {e}")
