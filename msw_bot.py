@@ -63,12 +63,11 @@ DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQD
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
 # 特別名單：包含 PAKA, paka1, paka2 的 PID
-SPECIAL_PLAYERS = ["20372100008443475", "20372100005802883","20372100006053110"]
+SPECIAL_PLAYERS = ["20372100008443475", "20372100005802883","20372100006053110", "20372100005770592"]
 
 CHECK_INTERVAL = 10 
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
 
-# 紀錄狀態
 last_known_data = {pid: {"is_online": None, "world_name": None} for pid in PLAYER_MAP.keys()}
 
 def check_players():
@@ -86,7 +85,6 @@ def check_players():
             response = requests.get(url, headers=headers, timeout=10)
             data_root = response.json().get('data', {})
             
-            # 獲取 API 回傳的當前狀態
             is_online = (data_root.get('isOnline') == 1)
             world_name = data_root.get('worldName') 
             p_code = data_root.get('profileCode', '未知')
@@ -100,11 +98,9 @@ def check_players():
             should_notify = False
             status_msg = ""
             
-            # 偵測上下線
             if is_online != prev["is_online"]:
                 should_notify = True
                 status_msg = "🟢 上線了！" if is_online else "🔴 下線了。"
-            # 偵測切換遊戲世界
             elif is_online and world_name != prev["world_name"]:
                 should_notify = True
                 status_msg = "🔄 切換世界"
@@ -130,21 +126,16 @@ def check_players():
                     }]
                 }
                 
-                # --- 發送邏輯 ---
-                # 1. 發送至通用頻道 (所有人)
-                requests.post(DISCORD_WEBHOOK_URL, json=payload)
-
-                # 2. 如果在特別名單，額外發送至 Paka 專屬頻道
+                # --- [關鍵修正：發送邏輯分流] ---
                 if pid in SPECIAL_PLAYERS:
-                    # 如果是 Paka，只發送到專屬頻道 (dc2)
+                    # 如果是 Paka 系列，只發送到 DC2
                     requests.post(DISCORD_WEBHOOK_URL_PAKA, json=payload)
-                    print(f"🚀 [dc2] 專屬通知: {name} (dc1不發送)")
+                    print(f"🚀 [dc2] 專屬通知: {name} (dc1已略過)")
                 else:
-                    # 如果不是 Paka，發送到原本的通用頻道 (dc1)
+                    # 否則發送到 DC1
                     requests.post(DISCORD_WEBHOOK_URL, json=payload)
                     print(f"📣 [dc1] 一般通知: {name}")
 
-                # 更新迴圈內的紀錄 (這行一定要在發送後執行)
                 print(f"✅ 處理完成: {name}")
 
         except Exception as e:
