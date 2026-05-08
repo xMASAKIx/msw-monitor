@@ -60,46 +60,70 @@ PLAYER_MAP = {
 
 # 預設圖片 (如果該玩家沒設定圖片時顯示)
 DEFAULT_IMAGE = "https://example.com/default.png"
-
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
+DISCORD_WEBHOOK_URL = "你的Webhook網址"
 CHECK_INTERVAL = 10 
-
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
 
-last_known_status = {pid: None for pid in PLAYER_MAP.keys()}
+# 紀錄上一次的狀態，這次改用 dict 存儲多個欄位
+# 結構: { pid: {"is_online": bool, "world_name": str} }
+last_known_data = {pid: {"is_online": None, "world_name": None} for pid in PLAYER_MAP.keys()}
 
 def check_players():
-    global last_known_status
+    global last_known_data
     print(f"[{time.strftime('%H:%M:%S')}] 掃描中...")
 
     for pid, info in PLAYER_MAP.items():
         try:
             name = info["name"]
-            custom_image = info.get("image", DEFAULT_IMAGE) # 抓取自訂圖片
+            custom_image = info.get("image", DEFAULT_IMAGE)
             
             url = API_URL_TEMPLATE.format(pid)
             headers = {'User-Agent': 'Mozilla/5.0'}
             
             response = requests.get(url, headers=headers, timeout=10)
-            user_data = response.json().get('data', {})
+            data_root = response.json().get('data', {})
             
-            is_online = (user_data.get('isOnline') == 1)
-            p_code = user_data.get('profileCode', '未知')
+            # 獲取 API 回傳的當前狀態
+            is_online = (data_root.get('isOnline') == 1)
+            world_name = data_root.get('worldName') # 如果沒在玩會是 None 或 空值
+            p_code = data_root.get('profileCode', '未知')
             
-            if last_known_status[pid] is None:
-                last_known_status[pid] = is_online
+            # 取得上次紀錄
+            prev = last_known_data[pid]
+
+            # 初始運行：存入數據但不發通知
+            if prev["is_online"] is None:
+                last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
                 continue
 
-            if is_online != last_known_status[pid]:
-                last_known_status[pid] = is_online
-                status_text = "🟢 上線了！" if is_online else "🔴 下線了。"
+            # 判斷邏輯：狀態或世界名稱改變時發送通知
+            should_notify = False
+            status_msg = ""
+            
+            if is_online != prev["is_online"]:
+                should_notify = True
+                status_msg = "🟢 上線了！" if is_online else "🔴 下線了。"
+            elif is_online and world_name != prev["world_name"]:
+                # 如果人一直在線上，但世界名字變了 (例如換分流或換遊戲)
+                should_notify = True
+                status_msg = "🔄 切換世界"
+
+            if should_notify:
+                # 更新最後紀錄
+                last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
+                
+                # 準備 Discord 訊息內容
+                current_world = world_name if world_name else "大廳或選單中"
                 color = 3066993 if is_online else 15158332 
                 
+                description = f"玩家：**{name}**\n代碼：`{p_code}`\n狀態：**{status_msg}**"
+                if is_online:
+                    description += f"\n目前位置：`{current_world}`"
+
                 payload = {
                     "embeds": [{
-                        "title": "楓之谷世界 狀態通知",
-                        "description": f"玩家：**{name}**\n代碼：`{p_code}`\n狀態：**{status_text}**",
-                        # 將 thumbnail (小圖) 或 image (大圖) 換成自訂圖片
+                        "title": "楓之谷發貨號動態",
+                        "description": description,
                         "thumbnail": {"url": custom_image}, 
                         "color": color,
                         "footer": {"text": f"PPSN: {pid}"},
@@ -108,7 +132,7 @@ def check_players():
                 }
                 
                 requests.post(DISCORD_WEBHOOK_URL, json=payload)
-                print(f"📣 通知發送: {name} 自訂圖片已載入")
+                print(f"📣 通知發送: {name} 目前在 {current_world}")
 
         except Exception as e:
             print(f"檢查 {pid} 出錯: {e}")
