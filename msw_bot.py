@@ -60,7 +60,7 @@ PLAYER_MAP = {
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1502637600752799774/9NzHDRjEsMXD2hKDa-M3QejEFb3qSid3re5U4spm8d35enQuppAioRdLg4JGKJxHHeik"
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
 # 特別名單：補齊所有需要去 DC2 的 PID
