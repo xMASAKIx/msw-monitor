@@ -72,6 +72,13 @@ last_known_data = {pid: {"is_online": None, "world_name": None} for pid in PLAYE
 
 def check_players():
     global last_known_data
+    # --- 放在這裡 ---
+    # 這樣你一執行程式，DC 就會跳出「監測系統已啟動」，代表連線成功
+    try:
+        requests.post(DISCORD_WEBHOOK_URL, json={"content": "🤖 監測系統已啟動！"})
+    except:
+        pass 
+    # ---------------
     print(f"[{time.strftime('%H:%M:%S')}] 掃描中...")
 
     for pid, info in PLAYER_MAP.items():
