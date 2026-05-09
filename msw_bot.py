@@ -21,7 +21,6 @@ PLAYER_MAP = {
     "20372100005338018": {"name": "小波", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/322/1775991434332.png"},
     "20372100003479787": {"name": "卡提作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/321/1774855337857.png"},
     "20372100003567962": {"name": "妃姬作者","image": "https://mod-file.dn.nexoncdn.co.kr/shop/213/1776626647882.png"},
-    "20372100008583110": {"name": "ES(夜夜發貨號)", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/149/1753505473494.png"},
     "20372100005894481": {"name": "平行", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1762773253552.png"},
     "20372100003096391": {"name": "幽幽子", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/586/1762449873627.png"},
     "20372100001110251": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1747565380029.png"},
@@ -29,23 +28,17 @@ PLAYER_MAP = {
     "20372100004235799": {"name": "死靈作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/907/1748105199984.png"},
     "20372100005999546": {"name": "TJ01", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/279/1776452793102.png"},
     "20372100005764633": {"name": "TJ02", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/163/1776452831843.png"},
-    "20372100005118171": {"name": "兔仔", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/956/1776228554718.png"},
     "20372000486671177": {"name": "韓國愛芮", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/58/1775909266323.png"},
-    "20372100005311821": {"name": "照作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/558/1775307529921.png"},
     "20372100003863084": {"name": "阿卡利作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/368/1757691781562.png"},
-    "20372100000180209": {"name": "PLAT", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/417/1776402215444.png"},
     "20372100003462165": {"name": "奧米加獸作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/988/1775817850083.png"},
-    "20372100000208070": {"name": "珊璞作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/166/1777216997978.png"},
     "20372100002340154": {"name": "金武金", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/746/1777216923670.png"},
     "20372100005770592": {"name": "PAKA", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/271/1775588447819.png"},
     "20372100005385883": {"name": "白狐", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/25/1753058871388.png"},
     "20372100005694709": {"name": "小別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/269/1748733872754.png"},
     "20372100008443475": {"name": "paka1", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/679/1774714211779.png"},
     "20372100005802883": {"name": "paka2", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/389/1777320374327.png"},
-    "20372100006407090": {"name": "北極熊初音作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/7/1778050053104.png"},
     "20372100005046143": {"name": "TJ", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/861/1751824550127.png"},
-    "20372100000224166": {"name": "別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/246/1739416591406.png"},
-    "20372100006053110": {"name": "智傑黑絲人在現江湖", "image": "https://megapx-assets.dcard.tw/images/bbfd69b7-1ece-4e02-b3d0-82ea413edb19/640.jpeg"}
+    "20372100000224166": {"name": "別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/246/1739416591406.png"}
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
