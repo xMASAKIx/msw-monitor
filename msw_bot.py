@@ -12,7 +12,8 @@ def home():
 
 def run_web():
     port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+    # 加入 use_reloader=False 避免在 Render 上重複啟動線程
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
 
 # --- 設定區域 ---
 PLAYER_MAP = {
@@ -62,30 +63,26 @@ DEFAULT_IMAGE = "https://example.com/default.png"
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
-# 特別名單：包含 PAKA, paka1, paka2 的 PID
-SPECIAL_PLAYERS = ["20372100008443475", "20372100005802883"]
+# 特別名單：補齊所有需要去 DC2 的 PID
+SPECIAL_PLAYERS = [
+    "20372100008443475", # paka1
+    "20372100005802883", # paka2
+]
 
-CHECK_INTERVAL = 10 
+CHECK_INTERVAL = 10 # 建議調高，避免被 Nexon 封鎖 IP
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
 
 last_known_data = {pid: {"is_online": None, "world_name": None} for pid in PLAYER_MAP.keys()}
 
 def check_players():
     global last_known_data
-    # --- 放在這裡 ---
-    # 這樣你一執行程式，DC 就會跳出「監測系統已啟動」，代表連線成功
-    try:
-        requests.post(DISCORD_WEBHOOK_URL, json={"content": "🤖 監測系統已啟動！"})
-    except:
-        pass 
-    # ---------------
-    print(f"[{time.strftime('%H:%M:%S')}] 掃描中...")
+    print(f"[{time.strftime('%H:%M:%S')}] 啟動掃描...")
 
     for pid, info in PLAYER_MAP.items():
+        time.sleep(0.2) # 每個請求微小間隔，保護 IP
         try:
             name = info["name"]
             custom_image = info.get("image", DEFAULT_IMAGE)
-            
             url = API_URL_TEMPLATE.format(pid)
             headers = {'User-Agent': 'Mozilla/5.0'}
             
@@ -98,6 +95,7 @@ def check_players():
             
             prev = last_known_data[pid]
 
+            # 首次啟動：存入資料但不發通知
             if prev["is_online"] is None:
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
                 continue
@@ -114,7 +112,6 @@ def check_players():
 
             if should_notify:
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
-                
                 current_world = world_name if world_name else "大廳或選單中"
                 color = 3066993 if is_online else 15158332 
                 
@@ -133,20 +130,16 @@ def check_players():
                     }]
                 }
                 
-                # --- [關鍵修正：發送邏輯分流] ---
+                # 分流邏輯
                 if pid in SPECIAL_PLAYERS:
-                    # 如果是 Paka 系列，只發送到 DC2
                     requests.post(DISCORD_WEBHOOK_URL_PAKA, json=payload)
-                    print(f"🚀 [dc2] 專屬通知: {name} (dc1已略過)")
+                    print(f"🚀 [dc2] 專屬通知: {name}")
                 else:
-                    # 否則發送到 DC1
                     requests.post(DISCORD_WEBHOOK_URL, json=payload)
                     print(f"📣 [dc1] 一般通知: {name}")
 
-                print(f"✅ 處理完成: {name}")
-
         except Exception as e:
-            print(f"檢查 {pid} 出錯: {e}")
+            print(f"檢查 {pid} ({info['name']}) 出錯: {e}")
 
 def main_loop():
     while True:
@@ -154,5 +147,17 @@ def main_loop():
         time.sleep(CHECK_INTERVAL)
 
 if __name__ == "__main__":
-    threading.Thread(target=main_loop, daemon=True).start()
+    # 1. 啟動時先發一次訊息確認連線 (確保在 Flask 啟動前執行)
+    print("發送啟動訊號到 Discord...")
+    try:
+        requests.post(DISCORD_WEBHOOK_URL, json={"content": "🤖 監測系統已啟動！"})
+    except Exception as e:
+        print(f"啟動訊號發送失敗: {e}")
+
+    # 2. 啟動背景線程
+    monitor_thread = threading.Thread(target=main_loop, daemon=True)
+    monitor_thread.start()
+    print("後台監控線程已啟動。")
+
+    # 3. 啟動 Web 服務
     run_web()
