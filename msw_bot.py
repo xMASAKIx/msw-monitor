@@ -60,7 +60,7 @@ PLAYER_MAP = {
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1502637600752799774/9NzHDRjEsMXD2hKDa-M3QejEFb3qSid3re5U4spm8d35enQuppAioRdLg4JGKJxHHeik"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
 # 特別名單：補齊所有需要去 DC2 的 PID
@@ -143,21 +143,36 @@ def check_players():
 
 def main_loop():
     while True:
+        # 確保 check_players 內部有 print("掃描中...") 以便觀察
         check_players()
         time.sleep(CHECK_INTERVAL)
 
 if __name__ == "__main__":
-    # 1. 啟動時先發一次訊息確認連線 (確保在 Flask 啟動前執行)
-    print("發送啟動訊號到 Discord...")
+    # 1. 啟動時先發一次訊息確認連線 (加入詳細診斷日誌)
+    print("--- 正在嘗試發送啟動訊號到 Discord ---")
     try:
-        requests.post(DISCORD_WEBHOOK_URL, json={"content": "🤖 監測系統已啟動！"})
+        # 加入 headers 模擬瀏覽器，並透過 response 變數捕捉回傳狀態
+        response = requests.post(
+            DISCORD_WEBHOOK_URL, 
+            json={"content": "🤖 監測系統已啟動！"},
+            headers={'User-Agent': 'Mozilla/5.0'},
+            timeout=10
+        )
+        
+        if response.status_code == 204:
+            print(f"✅ Discord 啟動訊號發送成功！(狀態碼: {response.status_code})")
+        else:
+            print(f"❌ Discord 拒絕請求，錯誤代碼: {response.status_code}")
+            print(f"   回應內容: {response.text}")
+            
     except Exception as e:
-        print(f"啟動訊號發送失敗: {e}")
+        print(f"💥 啟動訊號發送過程中發生異常: {e}")
 
     # 2. 啟動背景線程
     monitor_thread = threading.Thread(target=main_loop, daemon=True)
     monitor_thread.start()
-    print("後台監控線程已啟動。")
+    print("📡 後台監控線程已啟動，開始循環掃描。")
 
-    # 3. 啟動 Web 服務
+    # 3. 啟動 Web 服務 (Render 需要此服務來維持連線)
+    print("🌐 正在啟動 Flask Web 服務...")
     run_web()
