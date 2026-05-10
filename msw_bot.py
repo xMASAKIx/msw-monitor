@@ -33,7 +33,7 @@ PLAYER_MAP = {
     "20372100003462165": {"name": "奧米加獸作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/988/1775817850083.png"},
     "20372100002340154": {"name": "金武金", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/746/1777216923670.png"},
     "20372100005770592": {"name": "PAKA", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/271/1775588447819.png"},
-    "20372100005385883": {"name": "白狐", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/25/1753058871388.png"},
+    "20372100006407090": {"name": "北極熊初音作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/233/1749625499529.png"},
     "20372100005694709": {"name": "小別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/269/1748733872754.png"},
     "20372100008443475": {"name": "paka1", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/679/1774714211779.png"},
     "20372100005802883": {"name": "paka2", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/389/1777320374327.png"},
@@ -137,7 +137,7 @@ if __name__ == "__main__":
         # 加入 headers 模擬瀏覽器，並透過 response 變數捕捉回傳狀態
         response = requests.post(
             DISCORD_WEBHOOK_URL, 
-            json={"content": "🤖 監測系統已啟動！"},
+            json={"content": "🤖 維京已穿上黑絲待命！"},
             headers={'User-Agent': 'Mozilla/5.0'},
             timeout=10
         )
