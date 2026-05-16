@@ -96,18 +96,31 @@ def check_players():
             if should_notify:
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
                 current_world = world_name if world_name else "大廳或選單中"
-                color = 3066993 if is_online else 15158332 
                 
-                description = f"玩家：**{name}**\n代碼：`{p_code}`\n狀態：**{status_msg}**"
+                # 💡 調整 1：把左邊線的顏色改成最亮眼的純紅、純綠、純黃
+                if is_online:
+                    if "切換世界" in status_msg:
+                        color = 16776960  # 純黃色 (Hex: #FFFF00)
+                        title_icon = "🔄"
+                    else:
+                        color = 65280     # 純綠色 (Hex: #00FF00)
+                        title_icon = "🟢"
+                else:
+                    color = 16711680      # 純紅色 (Hex: #FF0000)
+                    title_icon = "🔴"
+                
+                # 內文部分
+                description = f"代碼：`{p_code}`\n狀態：**{status_msg}**"
                 if is_online:
                     description += f"\n目前位置：`{current_world}`"
 
+                # 💡 調整 2：把 Title 改成「圖示＋玩家名＋狀態」，一秒辨識
                 payload = {
                     "embeds": [{
-                        "title": "楓之谷發貨號動態",
+                        "title": f"{title_icon} 【{name}】{status_msg}",  # 👈 標題開頭直接帶有大紅綠燈
                         "description": description,
                         "thumbnail": {"url": custom_image}, 
-                        "color": color,
+                        "color": color,                                  # 👈 側邊欄變超亮色
                         "footer": {"text": f"PPSN: {pid}"},
                         "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
                     }]
