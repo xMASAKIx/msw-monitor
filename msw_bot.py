@@ -25,12 +25,11 @@ PLAYER_MAP = {
     "20372100003096391": {"name": "幽幽子", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/586/1762449873627.png"},
     "20372100001110251": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1747565380029.png"},
     "20372100002790823": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/757/1732900933505.png"},
-    "20372100004235799": {"name": "死靈作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/907/1748105199984.png"},
+    "20372100004235799": {"name": "死靈", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/907/1748105199984.png"},
+    "20372100003186784": {"name": "死靈妹01", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/858/1731945991995.png"},
+    "20372100002734060": {"name": "死靈妹02", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/412/1731771573322.png"},
     "20372100005999546": {"name": "TJ01", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/279/1776452793102.png"},
     "20372100005764633": {"name": "TJ02", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/163/1776452831843.png"},
-    "20372000486671177": {"name": "韓國愛芮", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/58/1775909266323.png"},
-    "20372100003863084": {"name": "阿卡利作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/368/1757691781562.png"},
-    "20372100003462165": {"name": "奧米加獸作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/988/1775817850083.png"},
     "20372100002340154": {"name": "金武金", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/746/1777216923670.png"},
     "20372100005770592": {"name": "PAKA", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/271/1775588447819.png"},
     "20372100006407090": {"name": "北極熊初音作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/233/1749625499529.png"},
@@ -50,6 +49,9 @@ DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039
 SPECIAL_PLAYERS = [
     "20372100008443475", # paka1
     "20372100005802883", # paka2
+    "20372100004235799", # 死靈
+    "20372100003186784", # 死靈妹01
+    "20372100002734060", # 死靈妹02
 ]
 
 CHECK_INTERVAL = 10 # 建議調高，避免被 Nexon 封鎖 IP
