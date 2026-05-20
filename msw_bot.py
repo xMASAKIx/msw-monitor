@@ -12,7 +12,6 @@ def home():
 
 def run_web():
     port = int(os.environ.get("PORT", 10000))
-    # 加入 use_reloader=False 避免在 Render 上重複啟動線程
     app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
 
 # --- 設定區域 ---
@@ -47,7 +46,6 @@ DEFAULT_IMAGE = "https://example.com/default.png"
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
-# 特別名單：補齊所有需要去 DC2 的 PID
 SPECIAL_PLAYERS = [
     "20372100008443475", # paka1
     "20372100005802883", # paka2
@@ -56,24 +54,57 @@ SPECIAL_PLAYERS = [
     "20372100002734060", # 死靈妹02
 ]
 
-CHECK_INTERVAL = 10 # 建議調高，避免被 Nexon 封鎖 IP
+# 💡 建議至少調到 30 ~ 60，避免過度頻繁觸發 Cloudflare 鎖 IP
+CHECK_INTERVAL = 15 
 API_URL_TEMPLATE = "https://mverse-api.nexon.com/social/v1/profile/{}"
 
 last_known_data = {pid: {"is_online": None, "world_name": None} for pid in PLAYER_MAP.keys()}
+
+def send_ip_blocked_warning(status_code):
+    """當發現被鎖 IP 時，發送警告到 Discord"""
+    print(f"⚠️ [警告] 你黑絲已造成妨礙風化: {status_code}。正在發送通知...")
+    payload = {
+        "embeds": [{
+            "title": "⚠️ 黑絲維京人遭受官方妨礙風化制裁 (Error 1015)",
+            "description": f"黑絲維京人目前被羈押禁見。\n**原因**：色色頻率過高，黑絲照已被 rate limit。\n**HTTP 狀態碼**：`{status_code}`\n\n倒數機制已啟動：**黑絲將被脫掉 10 分鐘**，隨後嘗試更換黑絲。",
+            "color": 16744192,  # 橘色
+            "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+        }]
+    }
+    # 同步通知兩個頻道
+    try:
+        requests.post(DISCORD_WEBHOOK_URL, json=payload, timeout=5)
+    except Exception as e:
+        print(f"發送 IP 被鎖警告至 DC 失敗: {e}")
 
 def check_players():
     global last_known_data
     print(f"[{time.strftime('%H:%M:%S')}] 啟動掃描...")
 
     for pid, info in PLAYER_MAP.items():
-        time.sleep(0.4) # 每個請求微小間隔，保護 IP
+        time.sleep(0.4) 
         try:
             name = info["name"]
             custom_image = info.get("image", DEFAULT_IMAGE)
             url = API_URL_TEMPLATE.format(pid)
-            headers = {'User-Agent': 'Mozilla/5.0'}
+            
+            # 偽裝稍微完整一點的瀏覽器頭
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
             
             response = requests.get(url, headers=headers, timeout=10)
+            
+            # 💡 核心新增：如果狀態碼不是 200 (例如 429 或 403)，判定為被鎖 IP
+            if response.status_code != 200:
+                print(f"❌ 擷取 {name} 失敗，狀態碼: {response.status_code}")
+                if response.status_code in [429, 403, 1015]:
+                    send_ip_blocked_warning(response.status_code)
+                    print("😴 進入冷卻模式，暫停打擾 Nexon 10 分鐘...")
+                    time.sleep(600)  # 暫停 600 秒 (10分鐘)
+                    return           # 直接跳出這一輪的掃描，重新等待
+                continue
+
             data_root = response.json().get('data', {})
             
             is_online = (data_root.get('isOnline') == 1)
@@ -82,7 +113,6 @@ def check_players():
             
             prev = last_known_data[pid]
 
-            # 首次啟動：存入資料但不發通知
             if prev["is_online"] is None:
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
                 continue
@@ -101,41 +131,37 @@ def check_players():
                 last_known_data[pid] = {"is_online": is_online, "world_name": world_name}
                 current_world = world_name if world_name else "大廳或選單中"
                 
-                # 💡 調整 1：把左邊線的顏色改成最亮眼的純紅、純綠、純黃
                 if is_online:
                     if "切換世界" in status_msg:
-                        color = 16776960  # 純黃色 (Hex: #FFFF00)
+                        color = 16776960  
                         title_icon = "🔄"
                     else:
-                        color = 65280     # 純綠色 (Hex: #00FF00)
+                        color = 65280     
                         title_icon = "🟢"
                 else:
-                    color = 16711680      # 純紅色 (Hex: #FF0000)
+                    color = 16711680      
                     title_icon = "🔴"
                 
-                # 內文部分
                 description = f"代碼：`{p_code}`\n狀態：**{status_msg}**"
                 if is_online:
                     description += f"\n目前位置：`{current_world}`"
 
-                # 💡 調整 2：把 Title 改成「圖示＋玩家名＋狀態」，一秒辨識
                 payload = {
                     "embeds": [{
-                        "title": f"{title_icon} 【{name}】{status_msg}",  # 👈 標題開頭直接帶有大紅綠燈
+                        "title": f"{title_icon} 【{name}】{status_msg}",  
                         "description": description,
                         "thumbnail": {"url": custom_image}, 
-                        "color": color,                                  # 👈 側邊欄變超亮色
+                        "color": color,                                  
                         "footer": {"text": f"PPSN: {pid}"},
                         "timestamp": time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
                     }]
                 }
                 
-                # 分流邏輯
                 if pid in SPECIAL_PLAYERS:
-                    requests.post(DISCORD_WEBHOOK_URL_PAKA, json=payload)
+                    requests.post(DISCORD_WEBHOOK_URL_PAKA, json=payload, timeout=10)
                     print(f"🚀 [dc2] 專屬通知: {name}")
                 else:
-                    requests.post(DISCORD_WEBHOOK_URL, json=payload)
+                    requests.post(DISCORD_WEBHOOK_URL, json=payload, timeout=10)
                     print(f"📣 [dc1] 一般通知: {name}")
 
         except Exception as e:
@@ -143,36 +169,29 @@ def check_players():
 
 def main_loop():
     while True:
-        # 確保 check_players 內部有 print("掃描中...") 以便觀察
         check_players()
         time.sleep(CHECK_INTERVAL)
 
 if __name__ == "__main__":
-    # 1. 啟動時先發一次訊息確認連線 (加入詳細診斷日誌)
     print("--- 正在嘗試發送啟動訊號到 Discord ---")
     try:
-        # 加入 headers 模擬瀏覽器，並透過 response 變數捕捉回傳狀態
         response = requests.post(
             DISCORD_WEBHOOK_URL, 
             json={"content": "🤖 維京已穿上黑絲待命！"},
             headers={'User-Agent': 'Mozilla/5.0'},
             timeout=10
         )
-        
-        if response.status_code == 204:
+        if response.status_code in [200, 204]:
             print(f"✅ Discord 啟動訊號發送成功！(狀態碼: {response.status_code})")
         else:
             print(f"❌ Discord 拒絕請求，錯誤代碼: {response.status_code}")
-            print(f"   回應內容: {response.text}")
             
     except Exception as e:
         print(f"💥 啟動訊號發送過程中發生異常: {e}")
 
-    # 2. 啟動背景線程
     monitor_thread = threading.Thread(target=main_loop, daemon=True)
     monitor_thread.start()
     print("📡 後台監控線程已啟動，開始循環掃描。")
 
-    # 3. 啟動 Web 服務 (Render 需要此服務來維持連線)
     print("🌐 正在啟動 Flask Web 服務...")
     run_web()
