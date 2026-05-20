@@ -66,7 +66,7 @@ def check_players():
     print(f"[{time.strftime('%H:%M:%S')}] 啟動掃描...")
 
     for pid, info in PLAYER_MAP.items():
-        time.sleep(0.2) # 每個請求微小間隔，保護 IP
+        time.sleep(0.4) # 每個請求微小間隔，保護 IP
         try:
             name = info["name"]
             custom_image = info.get("image", DEFAULT_IMAGE)
