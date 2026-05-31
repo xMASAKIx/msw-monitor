@@ -36,8 +36,7 @@ PLAYER_MAP = {
     "20372100005046143": {"name": "TJ", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/861/1751824550127.png"},
     "20372100000224166": {"name": "別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/246/1739416591406.png"},
     "20372100002684295": {"name": "ES作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/139/1778405604185.png"},
-    "20372100000590354": {"name": "照&露西", "image": "https://mod-file.dn.nexoncdn.co.kr/profile/114/1771410723884.png"},
-    "20372100005311821": {"name": "照&露西2", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/949/1774672479562.png"}
+    "20372100006294132": {"name": "蕾絲手", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/895/1780143044610.png"}
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
