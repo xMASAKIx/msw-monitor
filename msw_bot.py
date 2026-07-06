@@ -28,11 +28,7 @@ PLAYER_MAP = {
     "20372100002734060": {"name": "死靈妹02", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/412/1731771573322.png"},
     "20372100005999546": {"name": "TJ01", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/279/1776452793102.png"},
     "20372100005764633": {"name": "TJ02", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/163/1776452831843.png"},
-    "20372100000209378": {"name": "doxx(老PAKA)", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/491/1724686860431.png"},
-    "20372100005770592": {"name": "PAKA", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/271/1775588447819.png"},
     "20372100005694709": {"name": "小別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/269/1748733872754.png"},
-    "20372100008443475": {"name": "paka1", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/679/1774714211779.png"},
-    "20372100005802883": {"name": "paka2", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/389/1777320374327.png"},
     "20372100005046143": {"name": "TJ", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/861/1751824550127.png"},
     "20372100000224166": {"name": "別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/246/1739416591406.png"},
     "20372100002684295": {"name": "ES作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/139/1778405604185.png"},
@@ -44,9 +40,6 @@ DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQD
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
 SPECIAL_PLAYERS = [
-    "20372100008443475", # paka1
-    "20372100005802883", # paka2
-    "20372100000209378", # 老PAKA
     "20372100004235799", # 死靈
     "20372100003186784", # 死靈妹01
     "20372100002734060", # 死靈妹02
