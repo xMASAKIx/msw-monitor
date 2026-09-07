@@ -21,8 +21,6 @@ PLAYER_MAP = {
     "20372100003567962": {"name": "妃姬作者","image": "https://mod-file.dn.nexoncdn.co.kr/shop/213/1776626647882.png"},
     "20372100005894481": {"name": "平行", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1762773253552.png"},
     "20372100003096391": {"name": "幽幽子", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/586/1762449873627.png"},
-    "20372100001110251": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/749/1747565380029.png"},
-    "20372100002790823": {"name": "mimiming天使", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/757/1732900933505.png"},
     "20372100004235799": {"name": "死靈", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/907/1748105199984.png"},
     "20372100003186784": {"name": "死靈妹01", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/858/1731945991995.png"},
     "20372100002734060": {"name": "死靈妹02", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/412/1731771573322.png"},
@@ -31,9 +29,7 @@ PLAYER_MAP = {
     "20372100005694709": {"name": "小別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/269/1748733872754.png"},
     "20372100005046143": {"name": "TJ", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/861/1751824550127.png"},
     "20372100000224166": {"name": "別時", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/246/1739416591406.png"},
-    "20372100002684295": {"name": "ES作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/139/1778405604185.png"},
     "20372100009409969": {"name": "檔案頭作者", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/323/1772858850818.png"}
-
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
