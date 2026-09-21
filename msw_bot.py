@@ -33,7 +33,7 @@ PLAYER_MAP = {
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1497592013166608484/-bQDkOKmZBbxRMXwkmgQqrFsk4cdrtKIuKfVlxk81XeXwqalZ-9VliOuSC5wI1YMcuRT"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1551570994974433450/VeaRWfv932MFRaYBB14fbWT90fG2-TrtK5yR0VH2nWz7HeDItUK8FapQK8ctsx0N6Xt2"
 DISCORD_WEBHOOK_URL_PAKA = "https://discord.com/api/webhooks/1502364012128637039/o9cJHlVQ4sibt4E-YVSki-TsNlaRSwjFH2kDaiqwl5qPnek5_UR4SWDVdZpfBYWRVbS7"
 
 SPECIAL_PLAYERS = [
