@@ -30,7 +30,8 @@ PLAYER_MAP = {
     "20372100001110201": {"name": "mimiming阿狸", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/594/1723531165603.png"},
     "20372100003322451": {"name": "托爾", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/224/1789019851005.png"},
     "20372100000562649": {"name": "MRAY(會上托爾", "image": "https://mod-file.dn.nexoncdn.co.kr/profile/92/1727512576494.png"},
-    "20372100006283229": {"name": "紅蓮", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/350/1750709284903.png"}
+    "20372100006283229": {"name": "紅蓮", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/350/1750709284903.png"},
+    "20372100005374895": {"name": "草神", "image": "https://mod-file.dn.nexoncdn.co.kr/shop/850/1749468346021.png"}
 }
 
 DEFAULT_IMAGE = "https://example.com/default.png"
